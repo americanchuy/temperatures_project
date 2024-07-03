@@ -1,2 +1,2 @@
 # temperatures_project
-This project will help me better use and understand OOP when managing data. 
+First complex project that will utilize OOP for managing data. This README.md will progressively be updated as I further progress into the project. 
