@@ -7,14 +7,17 @@ specific temp unit
 
 Commit 2: Implementing a menu for users. This provides the interface for the user to interact with the program
 
+Commit 3: Creating containers that hold our data. Each container will include 3 pieces of information. 1) the sensor number,
+2) the room number where sensor is located, 3) the room description, the name of the room
 """
+
+# library imports
+import sys
+
 # GLOBAL CONSTANTS
 UNITS = {0: 'Celsius',
          1: 'Fahrenheit',
          2: 'Kelvin'}
-
-# library imports
-import sys
 
 
 def print_header():
@@ -106,14 +109,54 @@ def function_caller(choice, dataset=None, active_sensors=None, sensor_list=None)
     if choice == 6:
         print_histogram(dataset, active_sensors)
     if choice == 7:
-        print('Thanks for using Cisco Building 19 Temp project. Goodbye!')
+        print('Thanks for using the Cisco Campus Temperature Project. Goodbye!')
         sys.exit()
     print()
 
 
 def main():
-    """Orchestrate flow of our program"""
+    """Main for this commit is designed to create the data structures for this program and serves as a unit test."""
     print_header()
+    # key - room number
+    # value - (sensor number, room description/name)
+    sensors = {
+        '4213': ('Cisco Building 19', 0),
+        '4201': ('Cisco Building 21', 1),
+        '4204': ('Cisco Building 13 Cafeteria', 2),
+        '4218': ('Hardware Room', 3),
+        '4205': ('Software Room', 4),
+        'Out': ('Out', 5)
+    }
+    # use a list comprehension to turn each key value pair from the dict into a list of tuples.
+    sensor_list = [(key, *value) for (key,value) in sensors.items()]
+    # this will contain a filtered list of currently active sensors
+    filter_list = [value[1] for (key,value) in sensors.items()]
+    print('Testing sensors: ')
+    if sensors['4213'][0] == 'Cisco Building 19' and sensors['Out'][1] == 5:
+        print('Pass')
+    else:
+        print('Fail')
+    print('Testing sensor_list length: ')
+    if len(sensor_list) == 6:
+        print('Pass')
+        print('Testing sensor_list content: ')
+        for item in sensor_list:
+            if item[1] != sensors[item[0]][0]:
+                print('Fail')
+                break
+        else:
+            print('Pass')
+    print('Testing filter_list length: ')
+    if len(filter_list) == 6:
+        print('Pass')
+    else:
+        print('Fail')
+    print('Testing filter_list content:')
+    if sum(filter_list) == 15:
+        print('Pass')
+    else:
+        print('Fail')
+
     menu_options = [num for num in range(1, 8)]
     while True:
         print_menu()
