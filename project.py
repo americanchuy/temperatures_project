@@ -20,6 +20,21 @@ UNITS = {0: 'Celsius',
          2: 'Kelvin'}
 
 
+def recursive_sort(list_to_sort, key=0):
+    length = len(list_to_sort)
+    # make a copy of list so the original list is not modified
+    lst = list_to_sort[:]
+    if length <= 1:
+        return lst
+    else:
+        for idx in range(length - 1):
+            if lst[idx][key] > lst[idx + 1][key]:
+                lst[idx], lst[idx + 1] = lst[idx + 1], lst[idx]
+        last_item = lst[-1]
+        new_lst = lst[:-1]
+        return recursive_sort(new_lst, key) + [last_item]
+
+
 def print_header():
     """Will print the project name and author name for first run"""
     print('Cisco Building 19 Temperatures ')
@@ -128,9 +143,9 @@ def main():
         'Out': ('Out', 5)
     }
     # use a list comprehension to turn each key value pair from the dict into a list of tuples.
-    sensor_list = [(key, *value) for (key,value) in sensors.items()]
+    sensor_list = [(key, *value) for (key, value) in sensors.items()]
     # this will contain a filtered list of currently active sensors
-    filter_list = [value[1] for (key,value) in sensors.items()]
+    filter_list = [value[1] for (key, value) in sensors.items()]
     print('Testing sensors: ')
     if sensors['4213'][0] == 'Cisco Building 19' and sensors['Out'][1] == 5:
         print('Pass')
